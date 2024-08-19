@@ -4,7 +4,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 //import imageorange from "./../../../assets/imageorange.jpg"
 
-const HeaderHome = () => {
+const HeaderHome = (props) => {
     return(
         <>
             <div className="bg-orange-100 h-[430px]">

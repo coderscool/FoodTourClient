@@ -1,17 +1,25 @@
 import { IoMdTrendingUp } from "react-icons/io";
 import Slider from "react-slick"
 import DishDetail from "./component/DishDetail";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import axiosInstance from "../../../Api/axiosConfig";
+import { useNavigate } from "react-router-dom";
 const Trending = () => {
-    const dishs = [
-        {id: 1},
-        {id: 2},
-        {id: 3},
-        {id: 4},
-        {id: 5},
-        {id: 6},
-        {id: 7},
-        {id: 8},
-    ]
+    const [dishs, setDishs] = useState([])
+    const navigate = useNavigate()
+    useEffect(() => {
+        const fetchListDishTrend = async () => {
+          try {
+            const response = await axiosInstance.get("list");
+            console.log(response);
+            setDishs(response.data.list)
+          } catch (error) {
+            console.log(error)
+          }
+        };
+        fetchListDishTrend();
+      }, []);
     const setting = {
         dots: false,
         infinite: false,
@@ -28,9 +36,9 @@ const Trending = () => {
             </div>
             <div className="w-[1440px] ml-[50px] mt-4">
                 <Slider {...setting}>
-                    {dishs.map(dish => (
+                    {dishs && dishs.map(dish => (
                         <div key={dish.id}>
-                            <DishDetail/>
+                            <DishDetail dish={dish}/>
                         </div>
                     ))}
                 </Slider>

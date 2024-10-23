@@ -7,6 +7,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { IoCart } from "react-icons/io5";
 import { FaPlus } from "react-icons/fa";
 import HeaderInfor from "./component/HeaderInfor";
+import axiosInstance from "../../../Api/axiosConfig";
+import { useDispatch } from "react-redux";
+import { userFetch } from "../../Reducers/userSlice";
 const Header = () => {
   const [home, setHome] = useState(false);
   const [place, setPlace] = useState(false);
@@ -14,6 +17,7 @@ const Header = () => {
   const [access, setAccess] = useState(false)
   const location = useLocation();
   const navigate = useNavigate()
+  const dispatch = useDispatch()
   console.log(location)
   useEffect(() => {
     const fetchParam = async () => {
@@ -22,16 +26,18 @@ const Header = () => {
           setHome(true);
           setPlace(false);
           setBlog(false);
-        }
-        if (location.pathname == "/place") {
+        }else if (location.pathname == "/place") {
           setHome(false);
           setPlace(true);
           setBlog(false);
-        }
-        if (location.pathname == "/sale/order") {
+        }else if (location.pathname == "/sale/order") {
           setHome(false);
           setPlace(false);
           setBlog(true);
+        }else {
+          setHome(false);
+          setPlace(false);
+          setBlog(false);
         }
       } catch (error) {
         console.log(error);
@@ -44,7 +50,13 @@ const Header = () => {
     const CheckToken = async () => {
       const token = localStorage.getItem("token")
       if(token != null){
-        setAccess(true)
+        try {
+          const response = await axiosInstance.get("/identity/infor");
+          dispatch(userFetch(response.data))
+          setAccess(true)
+        } catch (error) {
+          localStorage.removeItem("token")
+        }
       }
     }
     CheckToken()

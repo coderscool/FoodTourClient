@@ -14,7 +14,7 @@ const CartItemDetail = ({dish, onHandleCheck, onHandleRemoveCheck}) => {
       }
     }
     return(
-        <div className="flex border border-black w-[1000px] p-3 bg-white rounded-[5px]">
+        <div className="flex border border-black w-[1000px] p-3 bg-white rounded-[5px] mb-2">
               <div className="flex">
                 <label className="flex items-center">
                   <input

@@ -1,51 +1,91 @@
-import store from "./../../../../assets/store.jpg"
+import store from "./../../../../assets/store.jpg";
+import suning from "./../../../../assets/suning.jpg" 
+import Pagination from '@mui/material/Pagination';
+import DishDetail from "../component/DishDetail";
+import { useEffect, useState } from "react";
+import axiosInstance from "../../../../Api/axiosConfig";
+import { useParams } from "react-router-dom";
+import InforRestaurant from "../component/InforRestaurant";
 const StorePage = () => {
-    return(
-        <div className="justify-center mx-[120px]">
-            <div className="flex border border-black w-[1200px]">
-                <div>
-                    <img className="h-[250px]" src={store}/>
-                </div>
-                <div className="ml-5">
-                    <div className="font-bold text-2xl font-arial">Chả cá Hà Thành</div>
-                    <div className="font-arial text-[12px] text-[#333]">Ăn vặt</div>
-                    <div className="flex mt-2">
-                        <p className="h-[40px] w-[40px] bg-orange-500 rounded-[50%] pt-1 mt-1 text-center text-white text-[20px]">7.5</p>
-                        <div className="ml-7">
-                            <p className="text-[20px] text-orange-500">7.8</p>
-                            <p className="text-[12px]">Chất lượng</p>
-                        </div>
-                        <div className="ml-6">
-                            <p className="text-[20px] text-orange-500">7.8</p>
-                            <p className="text-[12px]">Giá cả</p>
-                        </div>
-                        <div className="ml-11">
-                            <p className="text-[20px] text-orange-500">7.8</p>
-                            <p className="text-[12px]">Vị trí</p>
-                        </div>
-                        <div className="ml-11">
-                            <p className="text-[20px] text-orange-500">7.8</p>
-                            <p className="text-[12px]">Không gian</p>
-                        </div>
-                        <div className="ml-5">
-                            <p className="text-[20px] text-orange-500">7.8</p>
-                            <p className="text-[12px]">Phục vụ</p>
-                        </div>
-                    </div>
-                    <div>32 Nguyễn Văn Huyên, Cầu Giấy, Hà Nội</div>
-                    <div>Giờ mở cửa: 10:00 - 22:00</div>
-                    <div>0356412374</div>
-                </div>
-            </div>
-            <div>
-                <div>Thực đơn món ăn</div>
-                <div>Slice</div>
-            </div>
-            <div>
-                <div>Đánh giá</div>
-            </div>
-            <div>Bình luận</div>
+  const param = useParams()
+  console.log(param)
+  useEffect(() => {
+    const fetchInforRestaurant = async () => {
+      try {
+        const response = await axiosInstance.get(`/identity/test?id=${param.id}`);
+        console.log("data", response.data);
+        setRestaurant(response.data)
+      } catch (error) {
+        console.log(error)
+      }
+    };
+    fetchInforRestaurant();
+  }, []);
+  useEffect(() => {
+    const fetchDishRestaurant = async () => {
+      try {
+        const response = await axiosInstance.get(`/dish/restaurant?id=${param.id}&page=0&size=3`);
+        console.log("data", response.data);
+        setDish(response.data.list)
+      } catch (error) {
+        console.log(error)
+      }
+    };
+    fetchDishRestaurant();
+  }, []);
+  const [restaurant, setRestaurant] = useState({})
+  const [dishes, setDish] = useState([])
+  return (
+    <div className="flex justify-center bg-[#eee]">
+      <div className="w-[1100px]">
+        <InforRestaurant restaurant={restaurant}/>
+        <div>
+          <div className="text-[24px] font-bold text-orange-500 my-2">Thực đơn món ăn</div>
+          <div className="flex justify-between">
+            {dishes.map((dish) => (
+              <div key={dish}>
+                <DishDetail dish={dish}/>
+              </div>
+            ))}
+          </div>
+        <Pagination className="flex justify-center mb-4 mt-2" count={10} variant="outlined" color="primary" />
         </div>
-    )
-}
-export default StorePage
+        <div className="flex">
+          <img className="border border-black w-10 h-10 rounded-[50%]" src={suning}/>
+          <div className="w-[900px]">
+            <div className="text-[14px] font-sans border-b-2 border-gray-300 ml-4">
+              Viet binh luan...
+            </div>
+            <div className="flex text-[14px] justify-end my-2">
+              <button className="w-16 h-8 bg-gray-500 rounded-[16px] mr-2">
+                Huy
+              </button>
+              <button className="w-20 h-8 bg-orange-500 rounded-[16px]">
+                Binh luan
+              </button>
+            </div>
+          </div>
+        </div>
+        <div className="flex">
+          <img className="border border-black w-10 h-10 rounded-[50%]" src={suning}/>
+          <div className="w-[900px]">
+            <div className="text-[14px] font-sans font-medium ml-4">
+              Vu Hoang Phuong
+            </div>
+            <div className="text-[14px] font-sans ml-4">Cam on vi da den</div>
+          </div>
+        </div>
+        <div className="flex mt-2">
+          <img className="border border-black w-10 h-10 rounded-[50%]" src={suning}/>
+          <div className="w-[900px]">
+            <div className="text-[14px] font-sans font-medium ml-4">
+              Vu Hoang Phuong
+            </div>
+            <div className="text-[14px] font-sans ml-4">Cam on vi da den</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+export default StorePage;

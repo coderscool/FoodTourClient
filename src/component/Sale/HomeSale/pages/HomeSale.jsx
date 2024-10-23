@@ -7,42 +7,43 @@ import { selectUser } from "../../../Reducers/userSlice";
 import { dishFetch } from "../../../Reducers/dishSlice";
 
 const HomeSale = () => {
-  //const dispatch = useDispatch()
-  //const user = useSelector(selectUser)
-  /*useEffect(() => {
+  const dispatch = useDispatch()
+  const user = useSelector(selectUser)
+  useEffect(() => {
     const fetchUser = async () => {
       try {
-        const data = {
-          id: user.id
-        }
-        const response = await axiosInstance.post("/list", data);
+        const response = await axiosInstance.get(`https://localhost:7220/dish/restaurant?Id=${user.id}&Page=0`);
         dispatch(dishFetch(response.data));
       } catch (error) {
         console.log(error)
       }
     };
     fetchUser();
-  }, []);*/
+  }, []);
   return (
     <div className="">
       <div className="bg-[#fff]">
-      <p className="font-medium text-[20px] ml-10 mt-1 mb-4">Số liệu kinh doanh tổng quan</p>
-      <div className="flex justify-center">
-        <div className="border border-black bg-blue-statistic bg-contain w-[320px] h-[170px] mr-4">
-          .
-        </div>
-        <div className="border border-black bg-green-statistic bg-contain w-[320px] h-[170px] mr-4">
-          .
-        </div>
-        <div className="border border-black bg-orange-statistic bg-contain w-[320px] h-[170px] mr-4">
-          .
-        </div>
-        <div className="border border-black bg-red-statistic bg-contain w-[320px] h-[170px]">
-          .
+        <p className="font-medium text-[20px] ml-10 mt-1 mb-4">
+          Số liệu kinh doanh tổng quan
+        </p>
+        <div className="flex justify-center">
+          <div className="border border-black bg-blue-statistic bg-contain w-[320px] h-[170px] mr-4">
+            .
+          </div>
+          <div className="border border-black bg-green-statistic bg-contain w-[320px] h-[170px] mr-4">
+            .
+          </div>
+          <div className="border border-black bg-orange-statistic bg-contain w-[320px] h-[170px] mr-4">
+            .
+          </div>
+          <div className="border border-black bg-red-statistic bg-contain w-[320px] h-[170px]">
+            .
+          </div>
         </div>
       </div>
-      </div>
-      <p className="font-medium text-[20px] ml-10 mt-4">Bảng doanh số trong 1 tháng</p>
+      <p className="font-medium text-[20px] ml-10 mt-4">
+        Bảng doanh số trong 1 tháng
+      </p>
       <div className="flex justify-center">
         <LineChart
           xAxis={[
@@ -56,11 +57,7 @@ const HomeSale = () => {
           series={[
             {
               data: [
-                2000000, 100000, 50000, 40000000, 150000, 6000000, 2000000,
-                100000, 50000, 40000000, 150000, 6000000, 2000000, 100000,
-                50000, 40000000, 150000, 6000000, 2000000, 100000, 50000,
-                40000000, 150000, 6000000, 2000000, 100000, 50000, 40000000,
-                150000, 6000000,
+                0, 100000
               ],
             },
           ]}
@@ -71,7 +68,7 @@ const HomeSale = () => {
         />
       </div>
       <div className="">
-        <DishMenu/>
+        <DishMenu />
       </div>
     </div>
   );

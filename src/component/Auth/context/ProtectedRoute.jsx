@@ -3,11 +3,10 @@ import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../../Api/axiosConfig";
 import { useDispatch, useSelector } from "react-redux";
 import { userFetch } from "../../Reducers/userSlice";
-export default function Protected(props) {
+export default function Protected({children}) {
   const [isValid, setIsValid] = useState(null);
   const navigate = useNavigate()
   const dispatch = useDispatch();
-  const { Component } = props;
   useEffect(() => {
     const fetchUser = async () => {
       const local = localStorage.getItem("token");
@@ -36,7 +35,7 @@ export default function Protected(props) {
   return (
     <>
       <div>
-        <Component/>
+        {children}
       </div>
     </>
   );

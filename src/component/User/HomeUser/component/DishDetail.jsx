@@ -9,7 +9,7 @@ const DishDetail = (props) => {
         <div className="w-[350px] ml-5px bg-white border-[2px] border-gray-200 transition-transform duration-300 hover:scale-105">
             <img className="w-[350px] h-[200px] " src={dish.image}/>
             <div>
-                <Link to={`dish/${dish.id}`} className="m-0 text-[25px] font-bold font-arial pl-1 hover:text-orange-500 hover:underline">{dish.name}</Link>
+                <Link to={`/home/dish/${dish.id}`} className="m-0 text-[25px] font-bold font-arial pl-1 hover:text-orange-500 hover:underline">{dish.name}</Link>
                 <span className="text-[13px] font-arial ml-1 p-[2px] bg-[rgb(104, 103, 103)]">Cơm</span>
                 <div className="flex justify-between mt-2 mb-1">
                     <div className="flex pl-1">

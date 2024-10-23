@@ -4,10 +4,16 @@ import { useNavigate, useParams } from "react-router-dom";
 import {jwtDecode} from 'jwt-decode';
 import DishInfor from "../DishInfor";
 import axios from "axios";
+import { toast } from "react-toastify";
+import { notifyCart } from "../../../Reducers/headerSlice";
+import { useDispatch } from "react-redux";
+import DishSuggest from "../DishSuggest";
+
 const DishPage = () => {
     const paramId = useParams();
     const navigate = useNavigate()
     const token = localStorage.getItem("token")
+    const dispatch = useDispatch()
     useEffect(() => {
         const fetchListDishTrend = async () => {
           try {  
@@ -23,6 +29,7 @@ const DishPage = () => {
       }, []);
       const [dish, setDish] = useState([])
       const [restaurant, setRestaurant] = useState([])
+      const [open, setOpen] = useState(true)
       const onHandleAddCart = async (dish) => {
         if(!token){
           navigate("/login")
@@ -38,13 +45,17 @@ const DishPage = () => {
           }
           await axiosInstance.post("/cart", data)
           console.log(data)
+          dispatch(notifyCart())
+          toast.success("Thêm thành công món ăn vào giỏ hàng")
         } catch (error) {
           navigate("/login")
         }
       }
+
     return(
-        <div className="bg-[#efefef] h-screen">
+        <div className="bg-[#efefef] pb-2">
             <DishInfor dish={dish} restaurant={restaurant} onHandleAddCart={onHandleAddCart}/>
+            <DishSuggest/>
         </div>
     )
 }

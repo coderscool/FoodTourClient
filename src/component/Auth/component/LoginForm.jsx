@@ -12,8 +12,13 @@ export default function LoginForm() {
         if(login.Username != null && login.Password != null){
             try {
                 const response = await axiosInstance.post('/identity/login', login)
+                console.log(response)
                 await localStorage.setItem('token', response.data.token)
-                navigate('/sale/home') 
+                if(response.data.role == "user"){
+                    navigate("/home")
+                }else{
+                    navigate("/sale/home")
+                }
             } catch (error) {
                 console.log(error)
             }

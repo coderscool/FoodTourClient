@@ -5,6 +5,7 @@ const axiosInstance = axios.create({
   baseURL: 'https://localhost:7220', // Thay đổi URL cơ bản của API của bạn
   headers: {
     'Content-Type': 'application/json',
+    'charset': 'utf-8',
   },
 });
 

@@ -7,7 +7,7 @@ import { useState } from "react"
 const HomeUser = () => {
     return(
         <div>
-            <div className="">
+            <div className="bg-[#eee]">
                 <HeaderHome/>
                 <Trending/>
                 <StoreAdvertis/>

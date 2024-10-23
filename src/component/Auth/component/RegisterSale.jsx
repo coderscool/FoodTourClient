@@ -1,5 +1,5 @@
 import { TextField } from "@mui/material";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import {
   InputLabel,
@@ -78,7 +78,6 @@ export default function RegisterSale() {
   const handleRegister = async (event) => {
     event.preventDefault();
     const data = {
-      id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
       userName: userName,
       passWord: pssWord,
       person: {

@@ -40,7 +40,7 @@ const nations = [
   "Âu", "Hàn", "Nhật", "Trung", "Thái", "Việt"
 ];
 const types = [
-  "Mặn", "Ngọt", "Lẩu", "Nướng", "Ăn sáng", "Ăn vặt", "Soup", "Cơm" 
+  "Mặn", "Ngọt", "Lẩu", "Nướng", "Ăn sáng", "Ăn vặt", "Soup", "Cơm", "Gỏi", "Hấp"
 ];
 const theme = createTheme({
   palette: {
@@ -49,11 +49,11 @@ const theme = createTheme({
   },
 });
 
-const DishForm = () => {
+const DishForm = ({open, onHandleCreateDish, onHandleClose}) => {
   const [dialog, setDialog] = React.useState(false);
   const [dishName, setDishName] = React.useState("");
   const [image, setImage] = React.useState("")
-  const [price, setPrice] = React.useState("");
+  const [price, setPrice] = React.useState(0);
   const [typeName, setTypeName] = React.useState([]);
   const [nationName, setNationName] = React.useState([]);
   const user = useSelector(selectUser)
@@ -88,19 +88,11 @@ const DishForm = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = {
-      id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
       personId: user.id,
-      person: {
-        name: user.name,
-        address: user.address,
-        phone: user.phone
-      },
       name: dishName,
       image: image,
-      price: {
-        cost: price,
-        discount: 0,
-      },
+      price: price,
+      quantity: 0,
       rate: {
         point: 0,
       },
@@ -109,13 +101,21 @@ const DishForm = () => {
         category: typeName,
       },
     };
-    console.log(data);
-    await axios.post('https://localhost:7220/dish', data)
+    onHandleCreateDish(data)
+    setDishName("")
+    setImage("")
+    setPrice(0)
+    setTypeName([])
+    setNationName([])
   };
+
+  const handleClose = () => {
+    onHandleClose()
+  }
   return (
     <ThemeProvider theme={theme}>
       <Box>
-        <Dialog open={true}>
+        <Dialog open={open}>
           <DialogTitle style={{ display: "flex", justifyContent: "center" }}>
             Them mon an
           </DialogTitle>
@@ -142,7 +142,7 @@ const DishForm = () => {
                   <TextField
                     style={{ width: 200 }}
                     id="outlined-basic"
-                    label="Mon an"
+                    label="Giá"
                     value={price}
                     onChange={(e) => setPrice(e.target.value)}
                     variant="outlined"
@@ -197,7 +197,7 @@ const DishForm = () => {
               </List>
             </Grid>
             <Grid style={{ marginLeft: 220, marginBottom: 10 }}>
-              <Button variant="outlined" style={{ width: 100 }}>
+              <Button onClick={handleClose} variant="outlined" style={{ width: 100 }}>
                 Huy
               </Button>
               <Button

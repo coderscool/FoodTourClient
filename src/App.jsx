@@ -4,7 +4,6 @@ import RegisterChoice from "./component/Auth/component/RegisterChoice"
 import RegisterSale from "./component/Auth/component/RegisterSale"
 import RegisterUser from "./component/Auth/component/RegisterUser"
 import Auth from "./component/Auth/pages/Auth"
-import DishForm from "./component/Sale/HomeSale/DishForm"
 import HomeSale from "./component/Sale/HomeSale/pages/HomeSale"
 import DishPage from "./component/User/Dish/pages/DishPage"
 import HomeUser from "./component/User/HomeUser/pages/HomeUser"
@@ -17,6 +16,7 @@ import Protected from "./component/Auth/context/ProtectedRoute"
 import OrderPage from "./component/Sale/OrderSale/pages/OrderPage"
 import Notification from "./component/Notification/Notification"
 import LayoutSale from "./component/Sale/Layout/LayoutSale"
+import SearchPage from "./component/User/Search/pages/SearchPage"
 
 function App() {
   return (
@@ -24,11 +24,12 @@ function App() {
       <Router>
         <Routes>
             <Route path="/home" exact element={<LayoutUser><HomeUser/></LayoutUser>}/>
-            <Route path="/home/order/:id" exact element={<LayoutUser><StorePage/></LayoutUser>}/>
-            <Route path="/place" exact element={<LayoutUser><CartPage/></LayoutUser>}/>
-            <Route path="/sales/dish" exact element={<LayoutUser><StorePlace/></LayoutUser>}/>
-            <Route path="/home/dish/:id" exact element={<DishPage/>}/>
-            <Route path="/sale/order" exact element={<OrderPage/>}/>
+            <Route path="/home/store/:id" exact element={<LayoutUser><StorePage/></LayoutUser>}/>
+            <Route path="/cart" exact element={<Protected><LayoutUser><CartPage/></LayoutUser></Protected>}/>
+            <Route path="/place" exact element={<LayoutUser><StorePlace/></LayoutUser>}/>
+            <Route path="search/:key/:category" exact element={<LayoutUser><SearchPage/></LayoutUser>}/>
+            <Route path="/home/dish/:id" exact element={<LayoutUser><DishPage/></LayoutUser>}/>
+            <Route path="/sale/order" exact element={<Protected><LayoutSale><OrderPage/></LayoutSale></Protected>}/>
             <Route path="/sale/notification" exact element={<Notification/>}/>
             <Route path="/" element={<Auth/>}>
               <Route path="/login" element={<LoginForm/>}/>
@@ -36,8 +37,7 @@ function App() {
               <Route path="/register/user" element={<RegisterUser/>}/>
               <Route path="/register/sale" element={<RegisterSale/>}/>
             </Route>
-            <Route path="/sale/form" exact element={<Protected Component={DishForm}/>}/>x
-            <Route path="/sale/home" exact element={<LayoutSale><HomeSale/></LayoutSale>}/>
+            <Route path="/sale/home" exact element={<Protected><LayoutSale><HomeSale/></LayoutSale></Protected>}/>
         </Routes>
       </Router>
     </div>

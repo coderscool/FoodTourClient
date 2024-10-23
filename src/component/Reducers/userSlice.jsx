@@ -8,7 +8,8 @@ export const userSlice = createSlice({
             name: "",
             address: "",
             phone: "",
-            role: ""
+            role: "",
+            budget: 0
         },
     },
 
@@ -19,6 +20,7 @@ export const userSlice = createSlice({
             state.user.address = action.payload.address;
             state.user.phone = action.payload.phone;
             state.user.role = action.payload.role;
+            state.user.budget = action.payload.budget
         },
     }
 })
